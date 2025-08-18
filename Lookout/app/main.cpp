@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #define _USE_MATH_DEFINES
+#include "../Planets/AllPlanets.h"
+#include "../helpers/units.h"
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
@@ -10,24 +12,10 @@
 #include <cmath>
 #include <cstring>
 #include <fstream>
-#include <iomanip>
 #include <sstream>
 
 using namespace ci;
 using namespace ci::app;
-
-namespace units
-{
-    constexpr double G          = 6.67430e-11;
-    constexpr double PI         = 3.14159265358979323846;
-    constexpr double c          = 299792458.0; // m/s
-    constexpr double solarMass  = 1.989e30;
-    constexpr double M          = solarMass * 4297000.0f;
-    constexpr double r_s_m      = 2 * G * M / (c * c);
-    constexpr float  lightMtoPx = 1.0f / float(c);
-    constexpr float  lightPxToM = 1.0f / lightMtoPx;
-    constexpr float  c_px       = float(c) * lightMtoPx;
-}; // namespace units
 
 class Lookout : public App
 {
@@ -37,10 +25,28 @@ class Lookout : public App
 
 void Lookout::draw() // main
 {
+    gl::clear();
+
+    CameraPersp cam;
+    // look from then look at
+    cam.lookAt(vec3(500, 500, 500), vec3(0, 0, 0));
+    gl::setMatrices(cam);
+
+    Planet::Sun sun(dvec3(0, 0, 0), units::sunRadius, 1.989e30);
+    sun.draw();
+    std::cout << sun.radius_Ws << std::endl;
+
+    auto planets = getAllPlanets(sun);
+
+    // for (const auto& planet : planets)
+    // {
+    //     std::cout << planet->getPlanetPosition_Ws() << std::endl;
+    //     planet->draw();
+    // }
+
+
 }
 
-void Lookout::update()
-{
-}
+void Lookout::update() {}
 
 CINDER_APP(Lookout, RendererGl)
