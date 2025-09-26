@@ -16,7 +16,7 @@ set(CINDER_PATH "/Users/calebkumar/Desktop/Desktop_Calebs_Pro/coding/graphics/Ci
 add_subdirectory(${CINDER_PATH} ${CINDER_PATH}/build)
 
 # ---- App target ----
-add_executable(Lookout Lookout/app/main.cpp)
+add_executable(Lookout Lookout/app/Lookout.cc)
 #add_executable(Lookout test.cpp)
 target_link_libraries(Lookout PRIVATE cinder)
 target_include_directories(Lookout PRIVATE ${CINDER_PATH}/include)

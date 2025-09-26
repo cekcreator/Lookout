@@ -14,18 +14,28 @@ namespace Planet
     class Sun : public PlanetBase
     {
       public:
+        gl::BatchRef sun;
+        gl::TextureRef sunTexture;
         explicit Sun(const dvec3& position_Ws, double radius_km, double mass_kg)
             : PlanetBase(position_Ws, radius_km, mass_kg)
         {
+            sunTexture = gl::Texture::create( loadImage( ci::app::loadAsset("sun.jpg")));
+        }
+
+        void update() override
+        {
+            sunTexture->bind(0);
+
+            auto shader = gl::ShaderDef().texture().lambert();
+            auto glsl = gl::getStockShader(shader);
+            auto sphere = geom::Sphere().radius(static_cast<float>(radius_km) * units::planetSizeScale).center(position_Ws);
+            sun = gl::Batch::create(sphere, glsl);
         }
 
         void draw() override
         {
-            gl::color(1, 0, 0, 1);
-            gl::drawSphere(position_Ws, static_cast<float>(radius_Ws));
+            sun->draw();
         }
-
-        void update() override {}
 
         dvec3 getPlanetPosition_Ws() override
         {
@@ -34,4 +44,4 @@ namespace Planet
 
     };
 } // namespace Planet
-#endif //SUN_H
+#endif // SUN_H

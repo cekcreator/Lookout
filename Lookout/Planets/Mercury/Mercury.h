@@ -28,7 +28,6 @@ namespace Planet
         void draw() override
         {
             gl::color(1, 0, 0, 1);
-            std::cout << radius_Ws << std::endl;
             gl::drawSphere(position_Ws, radius_Ws);
         }
 
