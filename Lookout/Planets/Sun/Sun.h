@@ -24,8 +24,6 @@ namespace Planet
 
         void update() override
         {
-            sunTexture->bind(0);
-
             auto shader = gl::ShaderDef().texture().lambert();
             auto glsl = gl::getStockShader(shader);
             auto sphere = geom::Sphere().radius(static_cast<float>(radius_km) * units::planetSizeScale).center(position_Ws);
@@ -34,6 +32,7 @@ namespace Planet
 
         void draw() override
         {
+            sunTexture->bind(0);
             sun->draw();
         }
 

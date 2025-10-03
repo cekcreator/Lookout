@@ -18,19 +18,28 @@ namespace Planet
     class Earth final : public PlanetBase
     {
     public:
-        explicit Earth(const dvec3& position_Ws, double radius_km, double mass_kg, double scaleFactor)
-        : PlanetBase(position_Ws, radius_km, mass_kg, scaleFactor)
+        gl::BatchRef earth;
+        gl::TextureRef earthTexture;
+        explicit Earth(const dvec3& position_Ws, double radius_km, double mass_kg, double scaleFactor = 1.0)
+            : PlanetBase(position_Ws, radius_km, mass_kg, scaleFactor)
         {
+            earthTexture = gl::Texture::create( loadImage( ci::app::loadAsset("checkerboard.png")));
+        }
+
+        void update() override
+        {
+
+            auto shader = gl::ShaderDef().texture().lambert();
+            auto glsl = gl::getStockShader(shader);
+            auto sphere = geom::Sphere().radius(static_cast<float>(radius_km) * units::planetSizeScale).center(position_Ws);
+            earth = gl::Batch::create(sphere, glsl);
         }
 
         void draw() override
         {
-            gl::clear();
-            gl::color(1, 0, 0, 1);
-            gl::drawSphere(position_Ws, radius_Ws);
+            earthTexture->bind(0);
+            earth->draw();
         }
-
-        void update() override {}
 
         dvec3 getPlanetPosition_Ws() override
         {

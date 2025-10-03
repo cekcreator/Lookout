@@ -23,32 +23,26 @@ class Lookout : public App
     void setup() override;
     void draw() override;
     void update() override;
-    void mouseDown(MouseEvent event) override;
-    void mouseDrag(MouseEvent event) override;
-    void mouseUp(MouseEvent event) override;
+    // void mouseDown(MouseEvent event) override;
+    // void mouseDrag(MouseEvent event) override;
+    // void mouseUp(MouseEvent event) override;
     void keyDown(KeyEvent event) override;
     void keyUp(KeyEvent event) override;
+    void calcCamVectors();
+    void camLookAt();
 
   private:
-
-    gl::BatchRef		mSphere;
-    gl::TextureRef		mTexture;
-    gl::GlslProgRef		mGlsl;
     CameraPersp   mCam;
-    vec3          mCamPosition{500, 500, 500};
-    float         mYaw         = glm::radians(-135.0f);
-    float         mPitch       = glm::radians(-20.0f);
-    float         mMoveSpeed   = 100.0f;
-    float         mMouseSens   = 0.0025f;
-    bool          mMouseActive = false;
+    vec3          mCamPos     = vec3{200, 200, 200};
+    vec3          mCamForward = vec3{0, 0, -1};
+    vec3          mCamUp      = vec3{0, 1, 0};
+    vec3          mCamRight   = vec3{1, 0, 0};
+    vec3          mWorldUp    = vec3{0, 1, 0};
+    float         mYaw;
+    float         mPitch;
+    float         mSpeed     = 10.0f;
+    float         mLookSpeed = 3.0f;
     std::set<int> mActiveKeys;
-    CameraUi      mCamUi;
-    ivec2         mCursorPos;
-    ivec2         mCursorPrev;
-    float         mCamRotationX = 0.0f;
-    float         mCamRotationY = 0.0f;
-    vec3          mTarget       = vec3(0, 0, 0);
-    bool          uiWantsMouse() const;
 
     std::vector<std::unique_ptr<Planet::PlanetBase>> mPlanets;
 };

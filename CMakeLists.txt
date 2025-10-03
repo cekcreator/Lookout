@@ -16,9 +16,15 @@ set(CINDER_PATH "/Users/calebkumar/Desktop/Desktop_Calebs_Pro/coding/graphics/Ci
 add_subdirectory(${CINDER_PATH} ${CINDER_PATH}/build)
 
 # ---- App target ----
-add_executable(Lookout Lookout/app/Lookout.cc)
-#add_executable(Lookout test.cpp)
-target_link_libraries(Lookout PRIVATE cinder)
+include( "${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake" )
+
+get_filename_component( APP_PATH "${CMAKE_CURRENT_SOURCE_DIR}" ABSOLUTE )
+
+ci_make_app(
+        SOURCES     ${APP_PATH}/Lookout/app/Lookout.cc
+        CINDER_PATH ${CINDER_PATH}
+)
+#target_link_libraries(Lookout PRIVATE cinder)
 target_include_directories(Lookout PRIVATE ${CINDER_PATH}/include)
 
 # --- Critical bit: clear Cinder's exported -std=c++17 so your setting applies ---
