@@ -9,35 +9,38 @@
 #include "cinder/app/App.h"
 #include "cinder/gl/gl.h"
 
-
 using namespace ci;
 
 namespace Planet
 {
 
-    class Uranus: public PlanetBase
+    class Uranus : public PlanetBase
     {
-    public:
-        explicit Uranus(const dvec3& position_Ws, double radius_km, double mass_kg, double scaleFactor)
-        : PlanetBase(position_Ws, radius_km, mass_kg, scaleFactor)
+      public:
+        gl::BatchRef   uranus;
+        gl::TextureRef uranusTexture;
+        explicit Uranus(double distFromSun, double radius_km, double mass_kg)
+            : PlanetBase(distFromSun, radius_km, mass_kg)
         {
+            uranusTexture = gl::Texture::create(loadImage(ci::app::loadAsset("uranus.jpg")));
+        }
+
+        void update() override
+        {
+            auto shader = gl::ShaderDef().texture().lambert();
+            auto glsl   = gl::getStockShader(shader);
+            auto sphere = geom::Sphere().radius(radius_Ws).center(position_Ws);
+            uranus      = gl::Batch::create(sphere, glsl);
         }
 
         void draw() override
         {
-            gl::clear();
-            gl::color(1, 0, 0, 1);
-            gl::drawSphere(position_Ws, radius_Ws);
+            uranusTexture->bind(0);
+            uranus->draw();
         }
 
-        void update() override {}
-
-        dvec3 getPlanetPosition_Ws() override
-        {
-            return position_Ws;
-        }
+        dvec3 getPlanetPosition_Ws() override { return position_Ws; }
     };
 } // namespace Planet
 
-
-#endif //URANUS_H
+#endif // URANUS_H

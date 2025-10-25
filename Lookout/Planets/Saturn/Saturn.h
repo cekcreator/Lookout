@@ -18,19 +18,29 @@ namespace Planet
     class Saturn : public PlanetBase
     {
     public:
-        explicit Saturn(const dvec3& position_Ws, double radius_km, double mass_kg, double scaleFactor)
-            : PlanetBase(position_Ws, radius_km, mass_kg, scaleFactor)
+        gl::BatchRef   saturn;
+        gl::TextureRef saturnTexture;
+        explicit Saturn(double distFromSun, double radius_km, double mass_kg)
+            : PlanetBase(distFromSun, radius_km, mass_kg)
         {
+            saturnTexture = gl::Texture::create(loadImage(ci::app::loadAsset("saturn.jpg")));
+        }
+
+        void update() override
+        {
+            auto shader = gl::ShaderDef().texture().lambert();
+            auto glsl   = gl::getStockShader(shader);
+            auto sphere = geom::Sphere()
+                              .radius(radius_Ws)
+                              .center(position_Ws);
+            saturn = gl::Batch::create(sphere, glsl);
         }
 
         void draw() override
         {
-            gl::clear();
-            gl::color(1, 0, 0, 1);
-            gl::drawSphere(position_Ws, radius_Ws);
+            saturnTexture->bind(0);
+            saturn->draw();
         }
-
-        void update() override {}
 
         dvec3 getPlanetPosition_Ws() override
         {

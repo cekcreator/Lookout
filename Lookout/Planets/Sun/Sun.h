@@ -16,8 +16,8 @@ namespace Planet
       public:
         gl::BatchRef sun;
         gl::TextureRef sunTexture;
-        explicit Sun(const dvec3& position_Ws, double radius_km, double mass_kg)
-            : PlanetBase(position_Ws, radius_km, mass_kg)
+        explicit Sun(double distFromSun, double radius_km, double mass_kg)
+            : PlanetBase(distFromSun, radius_km, mass_kg)
         {
             sunTexture = gl::Texture::create( loadImage( ci::app::loadAsset("sun.jpg")));
         }
@@ -26,7 +26,7 @@ namespace Planet
         {
             auto shader = gl::ShaderDef().texture().lambert();
             auto glsl = gl::getStockShader(shader);
-            auto sphere = geom::Sphere().radius(static_cast<float>(radius_km) * units::planetSizeScale).center(position_Ws);
+            auto sphere = geom::Sphere().radius(radius_Ws).center(position_Ws);
             sun = gl::Batch::create(sphere, glsl);
         }
 

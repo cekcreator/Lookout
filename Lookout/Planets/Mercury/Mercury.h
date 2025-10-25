@@ -9,7 +9,6 @@
 #include "cinder/app/App.h"
 #include "cinder/gl/gl.h"
 
-
 using namespace ci;
 
 namespace Planet
@@ -17,28 +16,32 @@ namespace Planet
 
     class Mercury : public PlanetBase
     {
-    public:
-        explicit Mercury(const dvec3& position_Ws, double radius_km, double mass_kg, double scaleFactor)
-            : PlanetBase(position_Ws, radius_km, mass_kg)
+      public:
+        gl::BatchRef   mercury;
+        gl::TextureRef mercuryTexture;
+
+        explicit Mercury(double distFromSun, double radius_km, double mass_kg)
+            : PlanetBase(distFromSun, radius_km, mass_kg)
         {
-            scaleFactor = scaleFactor;
-            radius_Ws = radius_Ws * scaleFactor;
+            mercuryTexture = gl::Texture::create(loadImage(ci::app::loadAsset("sun.jpg")));
+        }
+
+        void update() override
+        {
+            auto shader = gl::ShaderDef().texture().lambert();
+            auto glsl   = gl::getStockShader(shader);
+            auto sphere = geom::Sphere().radius(radius_Ws).center(position_Ws);
+            mercury     = gl::Batch::create(sphere, glsl);
         }
 
         void draw() override
         {
-            gl::color(1, 0, 0, 1);
-            gl::drawSphere(position_Ws, radius_Ws);
+            mercuryTexture->bind(0);
+            mercury->draw();
         }
 
-        void update() override {}
-
-        dvec3 getPlanetPosition_Ws() override
-        {
-            return position_Ws;
-        }
+        dvec3 getPlanetPosition_Ws() override { return position_Ws; }
     };
 } // namespace Planet
 
-
-#endif //MERCURY_H
+#endif // MERCURY_H

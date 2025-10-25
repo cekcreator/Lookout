@@ -9,7 +9,6 @@
 #include "cinder/app/App.h"
 #include "cinder/gl/gl.h"
 
-
 using namespace ci;
 
 namespace Planet
@@ -17,27 +16,31 @@ namespace Planet
 
     class Mars : public PlanetBase
     {
-    public:
-        explicit Mars(const dvec3& position_Ws, double radius_km, double mass_kg, double scaleFactor)
-            : PlanetBase(position_Ws, radius_km, mass_kg, scaleFactor)
+      public:
+        gl::BatchRef   mars;
+        gl::TextureRef marsTexture;
+        explicit Mars(double distFromSun, double radius_km, double mass_kg)
+            : PlanetBase(distFromSun, radius_km, mass_kg)
         {
+            marsTexture = gl::Texture::create(loadImage(ci::app::loadAsset("mars.jpg")));
+        }
+
+        void update() override
+        {
+            auto shader = gl::ShaderDef().texture().lambert();
+            auto glsl   = gl::getStockShader(shader);
+            auto sphere = geom::Sphere().radius(radius_Ws).center(position_Ws);
+            mars        = gl::Batch::create(sphere, glsl);
         }
 
         void draw() override
         {
-            gl::clear();
-            gl::color(1, 0, 0, 1);
-            gl::drawSphere(position_Ws, radius_Ws);
+            marsTexture->bind(0);
+            mars->draw();
         }
 
-        void update() override {}
-
-        dvec3 getPlanetPosition_Ws() override
-        {
-            return position_Ws;
-        }
+        dvec3 getPlanetPosition_Ws() override { return position_Ws; }
     };
 } // namespace Planet
 
-
-#endif //Mars_H
+#endif // Mars_H

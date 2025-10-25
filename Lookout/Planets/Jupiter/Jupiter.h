@@ -18,19 +18,29 @@ namespace Planet
     class Jupiter final : public PlanetBase
     {
     public:
-        explicit Jupiter(const dvec3& position_Ws, double radius_km, double mass_kg, double scaleFactor)
-        : PlanetBase(position_Ws, radius_km, mass_kg, scaleFactor)
+        gl::BatchRef   jupiter;
+        gl::TextureRef jupiterTexture;
+        explicit Jupiter(double distFromSun, double radius_km, double mass_kg)
+        : PlanetBase(distFromSun, radius_km, mass_kg)
         {
+            jupiterTexture = gl::Texture::create(loadImage(ci::app::loadAsset("jupiter.jpg")));
+        }
+
+        void update() override
+        {
+            auto shader = gl::ShaderDef().texture().lambert();
+            auto glsl   = gl::getStockShader(shader);
+            auto sphere = geom::Sphere()
+                              .radius(radius_Ws)
+                              .center(position_Ws);
+            jupiter = gl::Batch::create(sphere, glsl);
         }
 
         void draw() override
         {
-            gl::clear();
-            gl::color(1, 0, 0, 1);
-            gl::drawSphere(position_Ws, radius_Ws);
+            jupiterTexture->bind(0);
+            jupiter->draw();
         }
-
-        void update() override {}
 
         dvec3 getPlanetPosition_Ws() override
         {

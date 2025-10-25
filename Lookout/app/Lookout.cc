@@ -58,23 +58,25 @@ void Lookout::camLookAt()
 void Lookout::setup()
 {
     mCam.setPerspective(45.0f, getWindowAspectRatio(), 0.01f, 1000.0f);
-    mCam.lookAt(vec3(200, 200, 200), vec3(0));
+    mCam.lookAt(vec3(10, 10, 10), vec3(0));
 
     vec3 dirToOrigin = normalize(vec3(0) - mCamPos);
     mYaw             = glm::degrees(atan2(dirToOrigin.z, dirToOrigin.x));
     mPitch           = glm::degrees(asin(dirToOrigin.y)); // y is sin(pitch)
     calcCamVectors();
 
-    auto sun   = std::make_unique<Planet::Sun>(dvec3(0, 0, 0), units::sunRadius, 1.989e30);
-    auto earth = std::make_unique<Planet::Earth>(dvec3(100, 100, 100), 6378.0, 5.9722e24);
-    mPlanets.push_back(std::move(sun));
-    mPlanets.push_back(std::move(earth));
+    mPlanets = Planet::getAllPlanets();
 }
 
 void Lookout::update()
 {
     mPlanets[0]->update();
     mPlanets[1]->update();
+
+    // for (auto &planet : mPlanets)
+    // {
+    //     planet->update();
+    // }
 
     vec3 movement(0);
     if (mActiveKeys.contains(KeyEvent::KEY_w))
@@ -93,10 +95,14 @@ void Lookout::update()
     if (glm::length(movement) > 0.0f)
         mCamPos += glm::normalize(movement) * mSpeed;
 
-    if (mActiveKeys.contains(KeyEvent::KEY_j)) mYaw   -= mLookSpeed;
-    if (mActiveKeys.contains(KeyEvent::KEY_l)) mYaw   += mLookSpeed;
-    if (mActiveKeys.contains(KeyEvent::KEY_i)) mPitch += mLookSpeed;
-    if (mActiveKeys.contains(KeyEvent::KEY_k)) mPitch -= mLookSpeed;
+    if (mActiveKeys.contains(KeyEvent::KEY_j))
+        mYaw -= mLookSpeed;
+    if (mActiveKeys.contains(KeyEvent::KEY_l))
+        mYaw += mLookSpeed;
+    if (mActiveKeys.contains(KeyEvent::KEY_i))
+        mPitch += mLookSpeed;
+    if (mActiveKeys.contains(KeyEvent::KEY_k))
+        mPitch -= mLookSpeed;
 
     mPitch = glm::clamp(mPitch, -89.0f, 89.0f);
 
@@ -113,6 +119,11 @@ void Lookout::draw() // main
 
     mPlanets[0]->draw();
     mPlanets[1]->draw();
+
+    // for (auto &planet : mPlanets)
+    // {
+    //     planet->draw();
+    // }
 }
 
 CINDER_APP(Lookout, RendererGl)
