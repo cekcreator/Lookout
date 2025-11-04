@@ -72,6 +72,13 @@ void Lookout::update()
 {
     mPlanets[0]->update();
     mPlanets[1]->update();
+    mPlanets[2]->update();
+    mPlanets[3]->update();
+    mPlanets[4]->update();
+    mPlanets[5]->update();
+    mPlanets[6]->update();
+    mPlanets[7]->update();
+    mPlanets[8]->update();
 
     // for (auto &planet : mPlanets)
     // {
@@ -119,10 +126,17 @@ void Lookout::draw() // main
 
     mPlanets[0]->draw();
     mPlanets[1]->draw();
+    mPlanets[2]->draw();
+    mPlanets[3]->draw();
+    mPlanets[4]->draw();
+    mPlanets[5]->draw();
+    mPlanets[6]->draw();
+    mPlanets[7]->draw();
+    mPlanets[8]->draw();
 
     // for (auto &planet : mPlanets)
     // {
-    //     planet->draw();
+    //     std::cout << planet->getPlanetRadius_Ws() << std::endl;
     // }
 }
 

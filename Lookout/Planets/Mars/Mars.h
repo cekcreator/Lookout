@@ -23,6 +23,8 @@ namespace Planet
             : PlanetBase(distFromSun, radius_km, mass_kg)
         {
             marsTexture = gl::Texture::create(loadImage(ci::app::loadAsset("mars.jpg")));
+            position_Ws = dvec3(105.0, 0.0, 0.0);
+            radius_Ws = 2.75;
         }
 
         void update() override
@@ -39,7 +41,15 @@ namespace Planet
             mars->draw();
         }
 
-        dvec3 getPlanetPosition_Ws() override { return position_Ws; }
+        dvec3 getPlanetPosition_Ws() override
+        {
+            return position_Ws;
+        }
+
+        double getPlanetRadius_Ws() override
+        {
+            return radius_Ws;
+        }
     };
 } // namespace Planet
 

@@ -23,6 +23,8 @@ namespace Planet
             : PlanetBase(distFromSun, radius_km, mass_kg)
         {
             uranusTexture = gl::Texture::create(loadImage(ci::app::loadAsset("uranus.jpg")));
+            position_Ws = dvec3(195.0, 0.0, 0.0);
+            radius_Ws = 5.0;
         }
 
         void update() override
@@ -40,6 +42,10 @@ namespace Planet
         }
 
         dvec3 getPlanetPosition_Ws() override { return position_Ws; }
+        double getPlanetRadius_Ws() override
+        {
+            return radius_Ws;
+        }
     };
 } // namespace Planet
 
