@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # target_compile_features(MyAwesomeApp PUBLIC cxx_std_23)
 
 # ---- Cinder ----
-set(CINDER_PATH "/Users/calebkumar/Desktop/Desktop_Calebs_Pro/coding/graphics/Cinder")
+set(CINDER_PATH "${CMAKE_CURRENT_SOURCE_DIR}/external/Cinder")
 add_subdirectory(${CINDER_PATH} ${CINDER_PATH}/build)
 
 # ---- App target ----

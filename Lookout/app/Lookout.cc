@@ -66,6 +66,7 @@ void Lookout::setup()
     calcCamVectors();
 
     mPlanets = Planet::getAllPlanets();
+    mStation = std::make_unique<ss::SpaceStation>();
 }
 
 void Lookout::update()
@@ -79,6 +80,7 @@ void Lookout::update()
     mPlanets[6]->update();
     mPlanets[7]->update();
     mPlanets[8]->update();
+    mStation->update();
 
     // for (auto &planet : mPlanets)
     // {
@@ -133,6 +135,7 @@ void Lookout::draw() // main
     mPlanets[6]->draw();
     mPlanets[7]->draw();
     mPlanets[8]->draw();
+    mStation->draw();
 
     // for (auto &planet : mPlanets)
     // {

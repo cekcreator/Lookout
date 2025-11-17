@@ -5,3 +5,4 @@ cmake-build-relwithdebinfo
 .idea
 scratch.cc
 .DS_Store
+external/
