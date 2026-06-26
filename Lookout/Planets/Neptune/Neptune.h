@@ -25,6 +25,8 @@ namespace Planet
             neptuneTexture = gl::Texture::create(loadImage(ci::app::loadAsset("neptune.jpeg")));
             position_Ws = dvec3(225.0, 0.0, 0.0);
             radius_Ws = 5.0;
+            orbitDistance_ws = 225.0;
+            orbitSpeed_ws = 0.3;
         }
 
         void update() override

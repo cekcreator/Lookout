@@ -26,6 +26,8 @@ namespace Planet
             jupiterTexture = gl::Texture::create(loadImage(ci::app::loadAsset("jupiter.jpg")));
             position_Ws = dvec3(135.0, 0.0, 0.0);
             radius_Ws = 8.0;
+            orbitDistance_ws = 135.0;
+            orbitSpeed_ws = 0.65;
         }
 
         void update() override

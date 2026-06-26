@@ -25,6 +25,8 @@ namespace Planet
             venusTexture = gl::Texture::create(loadImage(ci::app::loadAsset("venus.jpg")));
             position_Ws = dvec3(55.0, 0.0, 0.0);
             radius_Ws = 3.0;
+            orbitDistance_ws = 55.0;
+            orbitSpeed_ws = 1.5;
         }
 
         void update() override

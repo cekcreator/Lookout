@@ -26,6 +26,8 @@ namespace Planet
             saturnTexture = gl::Texture::create(loadImage(ci::app::loadAsset("saturn.jpg")));
             position_Ws = dvec3(165.0, 0.0, 0.0);
             radius_Ws = 7.0;
+            orbitDistance_ws = 165.0;
+            orbitSpeed_ws = 0.5;
         }
 
         void update() override

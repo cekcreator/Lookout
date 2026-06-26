@@ -14,8 +14,11 @@
 #include "Uranus/Uranus.h"
 #include "Venus/Venus.h"
 
+#include <cinder/CinderMath.h>
 #include <memory>
 #include <stdexcept>
+#include <chrono>
+#include <cmath>
 
 namespace Planet
 {
@@ -103,6 +106,22 @@ namespace Planet
             planets.emplace_back(createPlanet(spec, sunPos, units::orbitSizeScale));
         }
         return planets;
+    }
+
+    inline void orbitAllPlanets(std::vector<std::unique_ptr<PlanetBase>>& planets, std::chrono::high_resolution_clock::time_point startTime)
+    {
+        auto currentTime = std::chrono::high_resolution_clock::now();
+        auto deltaTime   = std::chrono::duration<double> (currentTime - startTime).count(); // in seconds?
+
+        for (auto& planet : planets)
+        {
+            double theta     = deltaTime * planet->getPlanetOrbitSpeed_Ws();
+            double sinTheta  = std::sin(theta);
+            double cosTheta  = std::cos(theta);
+            auto r = planet->getPlanetOrbitDistance_Ws(); // radius i think lol
+            auto newPos = glm::dvec3((r * cosTheta), (r * sinTheta), 0.0);
+            planet->setPlanetPosition_Ws(newPos);
+        }
     }
 } // namespace Planet
 #endif // ALLPLANETS_H

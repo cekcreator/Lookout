@@ -20,10 +20,22 @@
 using namespace ci;
 using namespace ci::app;
 
+auto startTime = std::chrono::high_resolution_clock::now();
+
 void Lookout::keyDown(KeyEvent event)
 {
     mActiveKeys.insert(event.getCode());
-    if (event.getChar() == 'f')
+    if (event.getChar() == '=')
+    {
+        mLineWidth += 2.0f;
+        mTestLine->setWidth(mLineWidth);
+    }
+    else if (event.getChar() == '-')
+    {
+        mLineWidth = glm::max(1.0f, mLineWidth - 2.0f);
+        mTestLine->setWidth(mLineWidth);
+    }
+    else if (event.getChar() == 'f')
     {
         setFullScreen(!isFullScreen());
     }
@@ -65,8 +77,9 @@ void Lookout::setup()
     mPitch           = glm::degrees(asin(dirToOrigin.y)); // y is sin(pitch)
     calcCamVectors();
 
-    mPlanets = Planet::getAllPlanets();
-    mStation = std::make_unique<ss::SpaceStation>();
+    mPlanets  = Planet::getAllPlanets();
+    mStation  = std::make_unique<ss::SpaceStation>();
+    mTestLine = std::make_unique<tl::ThickLine>(vec3(0, 0, 0), vec3(50, 30, 0), mLineWidth, Color(1, 1, 0));
 }
 
 void Lookout::update()
@@ -80,7 +93,8 @@ void Lookout::update()
     mPlanets[6]->update();
     mPlanets[7]->update();
     mPlanets[8]->update();
-    mStation->update();
+    // mStation->update();
+    orbitAllPlanets(mPlanets, startTime);
 
     // for (auto &planet : mPlanets)
     // {
@@ -135,7 +149,8 @@ void Lookout::draw() // main
     mPlanets[6]->draw();
     mPlanets[7]->draw();
     mPlanets[8]->draw();
-    mStation->draw();
+    // mStation->draw();
+    // mTestLine->draw();
 
     // for (auto &planet : mPlanets)
     // {

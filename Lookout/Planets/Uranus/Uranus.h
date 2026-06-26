@@ -25,6 +25,8 @@ namespace Planet
             uranusTexture = gl::Texture::create(loadImage(ci::app::loadAsset("uranus.jpg")));
             position_Ws = dvec3(195.0, 0.0, 0.0);
             radius_Ws = 5.0;
+            orbitDistance_ws = 195.0;
+            orbitSpeed_ws = 0.4;
         }
 
         void update() override

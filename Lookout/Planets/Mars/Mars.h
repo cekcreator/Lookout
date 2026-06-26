@@ -25,6 +25,8 @@ namespace Planet
             marsTexture = gl::Texture::create(loadImage(ci::app::loadAsset("mars.jpg")));
             position_Ws = dvec3(105.0, 0.0, 0.0);
             radius_Ws = 2.75;
+            orbitDistance_ws = 105.0;
+            orbitSpeed_ws = 1.0;
         }
 
         void update() override

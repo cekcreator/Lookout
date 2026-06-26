@@ -21,6 +21,11 @@ namespace Planet
         virtual double getPlanetRadius_Ws()   = 0;
         virtual ~PlanetBase()                 = default;
 
+        void setPlanetPosition_Ws(const dvec3& pos) { position_Ws = pos; }
+        void setPlanetRadius_Ws(double radius) { radius_Ws = radius; }
+        double getPlanetOrbitDistance_Ws() { return orbitDistance_ws; }
+        double getPlanetOrbitSpeed_Ws() { return orbitSpeed_ws; }
+
         PlanetBase(double distFromSun, double radius_km, double mass_kg)
             : distFromSun(distFromSun)
             , radius_km(radius_km)
@@ -40,5 +45,7 @@ namespace Planet
         // World space
         dvec3 position_Ws;
         double radius_Ws;
+        double orbitDistance_ws{0.0};
+        double orbitSpeed_ws{0.0};
     };
 } // namespace Planet

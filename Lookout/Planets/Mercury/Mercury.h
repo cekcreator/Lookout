@@ -24,8 +24,10 @@ namespace Planet
             : PlanetBase(distFromSun, radius_km, mass_kg)
         {
             mercuryTexture = gl::Texture::create(loadImage(ci::app::loadAsset("sun.jpg")));
-            position_Ws = dvec3(30.0, 0.0, 0.0);
+            position_Ws = dvec3(30.0, 1.0, 0.0);
             radius_Ws = 2.5;
+            orbitDistance_ws = 30.0;
+            orbitSpeed_ws = 2.0; // Adjust this value to control the speed of Mercury's orbit
         }
 
         void update() override

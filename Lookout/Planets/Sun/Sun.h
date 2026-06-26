@@ -22,6 +22,7 @@ namespace Planet
             sunTexture = gl::Texture::create( loadImage( ci::app::loadAsset("sun.jpg")));
             position_Ws = dvec3(0.0, 0.0, 0.0);
             radius_Ws = 10.0;
+            orbitDistance_ws = 0.0;
         }
 
         void update() override

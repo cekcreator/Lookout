@@ -30,7 +30,7 @@ $(CINDER_DIR):
 	@git submodule update --init --recursive
 
 run: all
-	@$(BUILD_DIR)/Release/$(TARGET) || $(BUILD_DIR)/$(TARGET)
+	@$(BUILD_DIR)/Release/$(TARGET)/$(TARGET).app/Contents/MacOS/$(TARGET)
 
 clean:
 	@rm -rf $(BUILD_DIR)

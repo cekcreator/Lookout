@@ -7,6 +7,7 @@
 #define _USE_MATH_DEFINES
 #include "../Planets/AllPlanets.h"
 #include "../SpaceStation/SpaceStation.h"
+#include "../ThickLine/ThickLine.h"
 #include "../helpers/units.h"
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
@@ -46,7 +47,9 @@ class Lookout : public App
     std::set<int> mActiveKeys;
 
     std::vector<std::unique_ptr<Planet::PlanetBase>> mPlanets;
-    std::unique_ptr<ss::SpaceStation> mStation;
+    std::unique_ptr<ss::SpaceStation>                mStation;
+    std::unique_ptr<tl::ThickLine>                   mTestLine;
+    float                                            mLineWidth = 3.0f;
 };
 
 #endif // LOOKOUT_H

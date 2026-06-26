@@ -28,6 +28,8 @@ namespace Planet
             earthTexture = gl::Texture::create(loadImage(ci::app::loadAsset("earth.jpg")));
             position_Ws = dvec3(80.0, 0.0, 0.0);
             radius_Ws = 3.25;
+            orbitDistance_ws = 80.0;
+            orbitSpeed_ws = 1.25;
         }
 
         void update() override
